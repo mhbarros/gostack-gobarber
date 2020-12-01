@@ -2,6 +2,8 @@ import dotenv from 'dotenv';
 import express from 'express';
 
 import routes from './routes';
+import './db/';
+import 'reflect-metadata';
 
 dotenv.config();
 
