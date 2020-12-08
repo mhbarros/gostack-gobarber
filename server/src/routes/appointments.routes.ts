@@ -18,13 +18,13 @@ routes.get('/', async (req, res) => {
 
 routes.post('/create', async (req, res) => {
   try{
-    const {provider, date} = req.body;
+    const {id_provider, date} = req.body;
 
     const parsedDate = parseISO(date);
 
     const createAppointmentService = new CreateAppointmentService();
 
-    const appointment = await createAppointmentService.execute({provider, date: parsedDate});
+    const appointment = await createAppointmentService.execute({id_provider, date: parsedDate});
 
     res.json(appointment);
   }catch (e) {

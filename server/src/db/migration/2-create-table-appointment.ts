@@ -1,4 +1,4 @@
-import {MigrationInterface, QueryRunner, Table} from "typeorm";
+import {MigrationInterface, QueryRunner, Table, TableForeignKey} from "typeorm";
 
 export class createTableAppointment1606789361691 implements MigrationInterface {
 
@@ -8,24 +8,42 @@ export class createTableAppointment1606789361691 implements MigrationInterface {
       columns: [
         {
           name: 'id',
-          type: 'varchar',
-          length: '40',
+          type: 'uuid',
           isPrimary: true,
           generationStrategy: 'uuid',
           isNullable: false,
           default: 'uuid_generate_v4()'
         },
         {
-          name: 'provider',
-          type: 'varchar',
-          isNullable: false,
+          name: 'id_provider',
+          type: 'uuid',
+          isNullable: true,
         },
         {
           name: 'date',
           type: 'timestamp with time zone',
           isNullable: false,
+        },
+        {
+          name: 'created_at',
+          type: 'timestamp',
+          default: 'now()'
+        },
+        {
+          name: 'updated_at',
+          type: 'timestamp',
+          default: 'now()'
         }
       ]
+    }))
+
+    await queryRunner.createForeignKey('calendar.Appointment', new TableForeignKey({
+      columnNames: ['id_provider'],
+      referencedColumnNames: ['id'],
+      referencedTableName: 'register.User',
+      onDelete: 'set null',
+      onUpdate: 'cascade',
+      name: 'appointment_user'
     }))
   }
 

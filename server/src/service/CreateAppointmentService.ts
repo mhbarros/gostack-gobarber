@@ -4,13 +4,13 @@ import AppointmentRepository from "../repository/AppointmentRepository";
 import {getCustomRepository} from 'typeorm';
 
 interface RequestDTO {
-  provider: string;
+  id_provider: string;
   date: Date
 }
 
 class CreateAppointmentService {
 
-  public async execute({provider, date}: RequestDTO): Promise<Appointment>{
+  public async execute({id_provider, date}: RequestDTO): Promise<Appointment>{
     const appointmentRepository = getCustomRepository(AppointmentRepository);
 
     const appointmentDate = startOfHour(date);
@@ -20,7 +20,7 @@ class CreateAppointmentService {
       throw Error('This date has already been booked.');
     }
 
-    const appointment = appointmentRepository.create({provider, date: appointmentDate});
+    const appointment = appointmentRepository.create({id_provider, date: appointmentDate});
     await appointmentRepository.save(appointment);
 
     return appointment;
