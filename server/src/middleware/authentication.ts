@@ -21,7 +21,7 @@ export default (request: Request, response: Response, next: NextFunction): void 
   try{
     const decodedToken = verify(token, authConfig.jwt.secret) as DecodedToken;
     request.user = {
-      id: 'teste'
+      id: decodedToken.sub
     }
 
     next();
