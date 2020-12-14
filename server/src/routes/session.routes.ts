@@ -8,15 +8,11 @@ routes.post('/create', async (req, res) => {
 
 
   const authenticateUserService = new AuthenticateUserService();
-  try{
-    const userAuthenticated = await authenticateUserService.execute({email, password});
-    delete userAuthenticated.user.password;
 
-    res.json(userAuthenticated);
+  const userAuthenticated = await authenticateUserService.execute({email, password});
+  delete userAuthenticated.user.password;
 
-  }catch (e) {
-    res.status(400).json({error: e.message});
-  }
+  res.json(userAuthenticated);
 })
 
 export default routes;

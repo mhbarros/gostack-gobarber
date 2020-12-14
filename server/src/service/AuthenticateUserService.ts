@@ -3,6 +3,7 @@ import User from "../model/User";
 import {compare} from "bcryptjs";
 import {sign} from 'jsonwebtoken';
 import GenerateJWTService from "./GenerateJWTService";
+import AppError from "../error/AppError";
 
 interface RequestDTO {
   email: string,
@@ -19,12 +20,12 @@ export default class AuthenticateUserService {
     });
 
     if (!user || !user.password) {
-      throw new Error('Incorrect e-mail or password');
+      throw new AppError('Incorrect e-mail or password', 401);
     }
 
     const userPasswordMatch = await compare(password, user.password);
     if (!userPasswordMatch) {
-      throw new Error('Incorrect e-mail or password');
+      throw new AppError('Incorrect e-mail or password', 401);
     }
 
     const generateJwtService = new GenerateJWTService();

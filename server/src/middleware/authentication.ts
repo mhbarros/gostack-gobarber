@@ -2,6 +2,7 @@ import {NextFunction, Request, Response} from "express";
 import {verify} from "jsonwebtoken";
 
 import authConfig from "../config/auth.config";
+import AppError from "../error/AppError";
 
 interface DecodedToken {
   iat: number;
@@ -12,8 +13,7 @@ interface DecodedToken {
 export default (request: Request, response: Response, next: NextFunction): void => {
   const {authorization} = request.headers;
   if(!authorization){
-    response.status(403).json({error: 'Token is missing'});
-    return;
+    throw new AppError('Token is missing', 403);
   }
 
   const [, token] = authorization.split(' ')
@@ -26,7 +26,7 @@ export default (request: Request, response: Response, next: NextFunction): void 
 
     next();
   }catch (e){
-    response.status(403).json({error: 'Login to access this feature.'});
+    throw new AppError('Login to access this feature.', 403)
   }
 
 }
