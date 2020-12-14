@@ -19,6 +19,9 @@ class User {
 
   @UpdateDateColumn()
   updated_at: string;
+
+  @Column()
+  avatar: string;
 }
 
 export default User;

@@ -3,6 +3,7 @@ import express, {Request, Response, NextFunction} from 'express';
 import 'express-async-errors';
 
 import routes from './routes';
+import uploadConfig from './config/upload.config';
 import './db/';
 import 'reflect-metadata';
 import AppError from "./error/AppError";
@@ -12,6 +13,7 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(routes);
+app.use('/files', express.static(uploadConfig.directory));
 app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
   if(err instanceof AppError){
     return response.status(err.statusCode).json({error: err.message});
